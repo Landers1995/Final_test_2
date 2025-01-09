@@ -20,6 +20,7 @@ class PostSerializer(ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
+        """Проверяем, что пользователь достиг 18 лет"""
         user = self.context['request'].user
         if not self.is_user_adult(user):
             raise serializers.ValidationError("Вы должны быть старше 18 лет, чтобы создавать посты.")
@@ -29,7 +30,7 @@ class PostSerializer(ModelSerializer):
         return user.date_born <= (timezone.now() - timedelta(days=18*365)).date()
 
     def validate_title(self, value):
-        # Проверяем, что заголовок не содержит запрещенные слова
+        """Проверяем, что заголовок не содержит запрещенные слова"""
         banned_words = ['ерунда', 'глупость', 'чепуха']
         if any(banned_word in value.lower() for banned_word in banned_words):
             raise serializers.ValidationError("Заголовок содержит запрещенные слова.")

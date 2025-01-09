@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from users.permissions import IsAdmin, IsOwner
@@ -21,7 +20,6 @@ class PostListAPIView(generics.ListAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
     permission_classes = [AllowAny]
-   #pagination_class = ElectronicNetworksPaginator
 
 
 class PostRetrieveAPIView(generics.RetrieveAPIView):
